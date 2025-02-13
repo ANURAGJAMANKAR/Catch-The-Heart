@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chase My Heart ❤️</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #ffe6e6;
+            overflow: hidden; 
+            position: relative;
+            
+        }
+        .container {
+            margin-top: 50px;
+        }
+        #welcomeMessage {
+            font-family: 'Pacifico', cursive;
+            font-size: 36px;
+            color: #d63384;
+        }
+        p {
+            font-family: 'Dancing Script', cursive;
+            font-size: 24px;
+            color: #ff4081;
+        }
+        #heart {
+            position: absolute;
+            font-size: 40px;
+            cursor: pointer;
+            transition: top 0.5s, left 0.5s;
+        }
+        .hidden {
+            display: none;
+        }
+        .big-heart {
+            font-size: 100px;
+            animation: pop 0.5s ease-in-out;
+        }
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.5); }
+            100% { transform: scale(1); }
+        }
+        .surprise-message {
+            font-family: 'Pacifico', cursive;
+            font-size: 24px;
+            font-weight: bold;
+            color: red;
+            display: none;
+            margin-top: 20px;
+            background-color: rgb(255, 223, 243);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 6px 15px rgba(0, 0, 0, 0.2);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            height: 398px;
+            width: 473px;
+            
+        }
+        .floating-emoji {
+            position: absolute;
+            font-size: 30px;
+            opacity: 0.8;
+            animation: float 3s infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
+        }
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <audio id="backgroundMusic" loop autoplay>
+        <source src="default_love_song.mp3" type="audio/mp3">
+    </audio>
+
+    <div class="container">
+        <h1 id="welcomeMessage">Heyyie ❤️</h1>
+        <p>💖 Try to catch this heart! There is a surprise for you! 💖</p>
+        <div id="heart">❤️</div>
+        <div class="surprise-message" id="surpriseMessage">Oh so cute! You got my heart! 💕 <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZDM0NW14MWttdzkwMTJmemV6eXU1OG5lc3cwamd2MHlxbTUyZ243NiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/BdJ1bZufjI9aoUuHQg/giphy.gif" alt="LOVE YOU"></div>
+    </div>
+
+    <div class="music-control" id="musicControl">🔊</div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const heart = document.getElementById("heart");
+            const musicControl = document.getElementById("musicControl");
+            const music = document.getElementById("backgroundMusic");
+            const surpriseMessage = document.getElementById("surpriseMessage");
+            let moving = true;
+        
+            function moveHeart() {
+                if (moving) {
+                    const maxX = window.innerWidth - heart.clientWidth;
+                    const maxY = window.innerHeight - heart.clientHeight;
+                    const randomX = Math.random() * maxX;
+                    const randomY = Math.random() * maxY;
+                    
+                    heart.style.transition = "all 1.5s ease-in-out"; // Slowed down
+                    heart.style.left = `${randomX}px`;
+                    heart.style.top = `${randomY}px`;
+                }
+            }
+        
+            setInterval(moveHeart, 1000); // Increased interval to slow movement
+        
+            heart.addEventListener("click", function () {
+                moving = false;
+                heart.style.transition = "all 0.5s ease-in-out";
+                heart.style.transform = "scale(3)";
+                setTimeout(() => {
+                //    heart.innerHTML = "❤️ Oh so cute! You got my heart ❤️";
+                    surpriseMessage.style.display = "block";
+                    surpriseMessage.style.animation = "pop 0.5s ease-in-out";
+                }, 500);
+            });
+        
+            musicControl.addEventListener("click", function () {
+                if (music.paused) {
+                    music.play();
+                    musicControl.textContent = "🔊";
+                } else {
+                    music.pause();
+                    musicControl.textContent = "🔇";
+                }
+            });
+        });
+
+        function createFloatingEmojis() {
+            const emojis = ['😍', '🥰', '😘', '💖', '💘', '💝', '💕'];
+            for (let i = 0; i < 10; i++) {
+                let emoji = document.createElement("div");
+                emoji.classList.add("floating-emoji");
+                emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                emoji.style.left = Math.random() * 100 + "vw";
+                emoji.style.top = Math.random() * 100 + "vh";
+                document.body.appendChild(emoji);
+            }
+        }
+        createFloatingEmojis();
+    </script>
+</body>
+</html>
